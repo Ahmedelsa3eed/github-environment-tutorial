@@ -1,0 +1,30 @@
+name: test github environment
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Building Code
+        run: echo "building.."
+
+  deploy-prod:
+    name: deploy
+    environment: prod
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Deploying Code
+        run: echo "deploying to ${{ github.environment }}"
