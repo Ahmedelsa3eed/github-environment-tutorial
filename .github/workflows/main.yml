@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'The environment to deploy to'
+        required: true
+        type: environment
 
 jobs:
   build:
@@ -28,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploying Code
-        run: echo "deploying to ${{ github.environment }} with secret ${{ secrets.TEST }}"
+        run: echo "deploying to ${{ github.event.inputs.environment }}"
 
   deploy-prod:
     name: deploy-prod
@@ -40,4 +45,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploying Code
-        run: echo "deploying to ${{ github.environment }} with secret ${{ secrets.TEST }}"
+        run: echo "deploying to ${{ github.event.inputs.environment }}"
