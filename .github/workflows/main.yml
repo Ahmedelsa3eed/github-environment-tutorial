@@ -1,11 +1,16 @@
 name: test github environment
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+  # push:
+  #   branches: [main]
+  # pull_request:
+  #   branches: [main]
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy'
+        type: environment
+        required: true
 
 jobs:
   build:
@@ -20,7 +25,7 @@ jobs:
 
   deploy-dev:
     name: deploy-dev
-    if: github.event_name == 'pull_request'
+    # if: github.event_name == 'pull_request'
     needs: [build]
     environment:
       name: dev
@@ -28,16 +33,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploying Code
-        run: echo "deploying to ${{ github.environment }} with secret ${{ secrets.TEST }}"
+        run: echo "deploying to ${{ inputs.environment }}"
 
   deploy-prod:
     name: deploy-prod
     needs: [build]
-    if: github.event.ref == 'refs/heads/main'
+    # if: github.event.ref == 'refs/heads/main'
     environment:
       name: prod
       url: 'http://prod.myapp.com'
     runs-on: ubuntu-latest
     steps:
       - name: Deploying Code
-        run: echo "deploying to ${{ github.environment }} with secret ${{ secrets.TEST }}"
+        run: echo "deploying to ${{ inputs.environment }}"
