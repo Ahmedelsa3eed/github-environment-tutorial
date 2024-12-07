@@ -18,13 +18,26 @@ jobs:
       - name: Building Code
         run: echo "building.."
 
-  deploy-prod:
-    name: deploy
-    environment: prod
+  deploy-dev:
+    name: deploy-dev
+    if: github.event_name == 'pull_request'
+    needs: [build]
+    environment:
+      name: dev
+      url: 'http://dev.myapp.com'
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
       - name: Deploying Code
-        run: echo "deploying to ${{ github.environment }}"
+        run: echo "deploying to ${{ github.environment }} with secret ${{ secrets.TEST }}"
+
+  deploy-prod:
+    name: deploy-prod
+    needs: [build]
+    if: github.event.ref == 'refs/heads/main'
+    environment:
+      name: prod
+      url: 'http://prod.myapp.com'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploying Code
+        run: echo "deploying to ${{ github.environment }} with secret ${{ secrets.TEST }}"
