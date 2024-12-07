@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploying Code
-        run: echo "deploying to ${{ github.environment }} with secret ${{ secrets.TEST }}"
+        run: echo "deploying to ${{ env.ENVIRONMENT }}"
 
   deploy-prod:
     name: deploy-prod
