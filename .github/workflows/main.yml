@@ -1,16 +1,16 @@
 name: test github environment
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+  # push:
+  #   branches: [main]
+  # pull_request:
+  #   branches: [main]
   workflow_dispatch:
     inputs:
       environment:
-        description: 'The environment to deploy to'
-        required: true
+        description: 'Environment to deploy'
         type: environment
+        required: true
 
 jobs:
   build:
@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploying Code
-        run: echo "deploying to ${{ github.event.inputs.environment }}"
+        run: echo "deploying to ${{ inputs.environment }}"
 
   deploy-prod:
     name: deploy-prod
@@ -45,4 +45,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploying Code
-        run: echo "deploying to ${{ github.event.inputs.environment }}"
+        run: echo "deploying to ${{ inputs.environment }}"
