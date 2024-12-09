@@ -1,0 +1,21 @@
+name: Approval Required for Deletion
+
+on:
+  push:
+    branches:
+      - '*'
+    paths:
+      - '.github/workflows/**.md'
+  pull_request:
+    branches:
+      - '*'
+    paths:
+      - '.github/workflows/**.md'
+
+jobs:
+  check_approval:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - name: Check Approvals
+        run: echo "HI"
