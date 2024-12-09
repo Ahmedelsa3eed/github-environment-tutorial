@@ -5,12 +5,14 @@ on:
     branches:
       - '*'
     paths:
-      - '.github/workflows/**.md'
+      - '.github/workflows/**.yml'
+      - '.github/workflows/**.yaml'
   pull_request:
     branches:
       - '*'
     paths:
-      - '.github/workflows/**.md'
+      - '.github/workflows/**.yml'
+      - '.github/workflows/**.yaml'
 
 jobs:
   check_approval:
