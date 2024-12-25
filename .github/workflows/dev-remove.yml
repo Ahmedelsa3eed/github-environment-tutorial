@@ -1,0 +1,44 @@
+name: Manual Workflow with Approval
+
+on:
+  workflow_dispatch:
+    inputs:
+      requestType:
+        type: choice
+        required: true
+        description: Request Type
+        options:
+            - Create
+            - Update
+            - Remove
+      environment:
+        description: Environment
+        type: environment
+        required: true
+
+permissions:
+  issues: write
+
+jobs:
+  myjob:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Wait for approval
+        if: ${{ inputs.environment == 'dev' && inputs.requestType == 'Remove' }}
+        uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: ELSAEED22
+          minimum-approvals: 1
+          issue-title: "Removing deployment from dev"
+          issue-body: "Please approve or deny"
+          exclude-workflow-initiator-as-approver: false
+          additional-approved-words: 'ok,go'
+          additional-denied-words: 'no,donot'
