@@ -1,0 +1,32 @@
+name: 'Main Deploy Load Balancer (Call)'
+run-name: '${{github.actor}} - Create/Remove Load Balancer with Frontend IP'
+on:
+  workflow_call:
+    inputs:
+      requestType:
+        type: string
+        required: false
+      environment:
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  lb-create:
+    name: 'Create Azure Load Balancer'
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: 'Checkout - Load Balancer'
+        uses: actions/checkout@v3
+
+      - name: 'Terraform Initialize - Load Balancer'
+        run: echo "init"
+      
+      - name: 'Terraform Initialize - Load Balancer'
+        run: echo "plan"
