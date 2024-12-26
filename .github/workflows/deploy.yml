@@ -47,4 +47,4 @@ jobs:
     secrets: inherit
     with:
       requesttype:                 '${{inputs.requesttype}}'
-      environment:                 '${{ inputs.environment == ''dev'' && ''dev_handle_removal'' || inputs.environment }}'
+      environment:                 ${{ inputs.environment == 'dev' && 'dev_handle_removal' || inputs.environment }}
