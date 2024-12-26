@@ -1,5 +1,5 @@
 name: 'Deploy Load Balancer - main'
-run-name: 'Load Balancer - ${{inputs.environment}} purpose: ${{inputs.purpose}} : ${{inputs.requesttype}}'
+run-name: 'Load Balancer - ${{inputs.environment}} : ${{inputs.requesttype}}'
 on:
   workflow_dispatch:
     inputs:
@@ -24,9 +24,8 @@ jobs:
 
   load_balancer_main_deploy_new_rg:
     if: (github.event.inputs.requesttype == 'Create Main Deploy (with New RG)')
-    name: 'Load Balancer ${{inputs.purpose}}'
-    uses: ./.github/workflows/LBMainDeploy.yml
-    needs: resource_group
+    name: 'Load Balancer'
+    uses: ./.github/workflows/called_from_deploy.yml
     secrets: inherit
     with:
       requesttype:                 '${{inputs.requesttype}}'
@@ -34,8 +33,8 @@ jobs:
   
   load_balancer_main_deploy_existing_rg:
     if: (github.event.inputs.requesttype == 'Create Main Deploy (with Existing RG)')
-    name: 'Load Balancer ${{inputs.purpose}}'
-    uses: ./.github/workflows/LBMainDeploy.yml
+    name: 'Load Balancer '
+    uses: ./.github/workflows/called_from_deploy.yml
     secrets: inherit
     with:
       requesttype:                 '${{inputs.requesttype}}'
@@ -43,8 +42,8 @@ jobs:
 
   load_balancer_main_deploy_remove:
     if: (github.event.inputs.requesttype == 'Remove')
-    name: 'Load Balancer ${{inputs.purpose}}'
-    uses: ./.github/workflows/LBMainDeploy.yml
+    name: 'Load Balancer '
+    uses: ./.github/workflows/called_from_deploy.yml
     secrets: inherit
     with:
       requesttype:                 '${{inputs.requesttype}}'
